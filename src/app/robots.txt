@@ -1,0 +1,9 @@
+# Le fichier robots.txt est un fichier texte qui permet de donner des instructions aux robots des moteurs de recherche.
+# Ainsi vous pouvez indiquer aux robots les pages de votre site que vous ne souhaitez pas voir référencées.
+# Pour Plus d'informations : https://developers.google.com/search/docs/crawling-indexing/robots/intro?hl=fr
+# Pour l'implementer dans un Project Next : https://medium.com/@dilhancodes/how-to-add-robots-txt-to-next-js-14-a-step-by-step-guide-de2e0f073676
+
+# Explication des directives si dessous : permettre à tous les robots d'indexer toutes les pages du site sauf la page admin
+User-agent : *
+Allow : /
+Disallow: /admin/

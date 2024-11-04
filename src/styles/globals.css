@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+
+  font-size: 62.5%; /* 1rem = 10px */
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: var(--font-poppins);
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+  }
+
+  h1 {
+    @apply text-[4.8rem];
+  }
+}
+
+@layer utilities {
+  .soft-shadow {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  .link {
+    @apply relative transition-all w-max hover:font-bold;
+
+    &::after {
+      content: "";
+      @apply absolute -bottom-2 left-0 w-full h-[.22rem] bg-black;
+      transform-origin: 100% 0;
+      transform: scaleX(0);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    &:hover::after {
+      /* @apply !text-primary-light; */
+      transform-origin: 0;
+      transform: scaleX(1);
+    }
+
+    &-active {
+      @apply ml-8  transition-all  font-semibold;
+
+      &::after {
+        content: "";
+        @apply absolute top-3 -translate-y-1/2  -left-14 w-[3rem] h-[.30rem] bg-black;
+        transform-origin: 100% 0;
+        transform: scaleX(1);
+        transition: transform 0.3s ease-in-out;
+      }
+    }
+  }
+
+  .btn-animate {
+    @apply relative transition-colors duration-[400ms] ease-in overflow-hidden [&>*]:relative [&>*]:z-10;
+
+    &::after {
+      content: "";
+      @apply absolute size-32 rounded-full  z-[1];
+      transform: scale(0);
+      transition: transform 550ms ease-in-out;
+    }
+
+    &:hover::after {
+      transform: scale(8);
+    }
+  }
+
+  .btn-animate--secondary {
+    &::after {
+      @apply bg-black;
+    }
+    &:hover {
+      @apply text-white;
+    }
+  }
+
+  .btn-animate--primary {
+    &::after {
+      @apply bg-white;
+    }
+    &:hover {
+      @apply text-black;
+    }
+  }
+}

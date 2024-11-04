@@ -1,0 +1,18 @@
+/**
+ * eslint-config-standard : permet d'appliquer les règles de StandardJS :
+ * eslint-plugin-tailwindcss : permet d'appliquer les règles de TailwindCSS.
+ * Pour Plus d'infos sur c'est plugins, veuillez consulter la documentation officielle sur https://www.npmjs.com/ en mettand le nom du plugin dans la barre de recherche.
+ */
+
+{
+  "extends": [
+    "next/core-web-vitals",
+    "standard",
+    "plugin:tailwindcss/recommended",
+    "prettier"
+  ],
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "react-hooks/rules-of-hooks": "off"
+  }
+}
