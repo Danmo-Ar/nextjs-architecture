@@ -1,9 +1,9 @@
-import Hero from "@/src/core/components/organisms/sections/hero";
-
 export default function Home() {
 	return (
-		<section>
-			Blank
+		<section className="text-center">
+			<h1 className="text-4xl font-bold">
+				Blanck Page : Header Coming Soon 🤞
+			</h1>
 		</section>
 	);
 }
