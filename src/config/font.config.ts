@@ -3,6 +3,8 @@
  * the new way to handle font in our project
  */
 
+// TODO : remove font config since we use fontsource
+
 import { Poppins } from "next/font/google";
 
 // Cette Polices est utilisée pour les examples : aller dans le fichier layout.tsx pour voir comment elle est utilisée
