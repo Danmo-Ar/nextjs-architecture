@@ -13,9 +13,6 @@ const queryClient = new QueryClient();
 const ProviderTree = buildProvidersTree([
 	[QueryClientProvider, { client: queryClient }],
 ]);
-
-console.log(ProviderTree);
-
 export const Provider = ({ children }: PropsWithChildren) => {
 	return <ProviderTree>{children}</ProviderTree>;
 };
