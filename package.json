@@ -2,13 +2,13 @@
 	"name": "nextjs-architecture-blank",
 	"version": "1.0.0",
 	"private": true,
-	"type": "module",
+
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"commit": "git add -A && pnpm git-cz --no-verify",
+		"commit": "git add -A && pnpm git-cz ",
 		"prepare": "husky"
 	},
 	"dependencies": {
