@@ -1,14 +1,18 @@
+"use client";
 /**
  * Ce fichier contient tout les providers qui permettent d'envelopper les composants de notre application
  * le composant ainsi obtenu peut être marqué en useClient et importer dans le app/layout qui lui reste en SSR
  */
 
-// TODO : Write the provider tree function
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PropsWithChildren } from "react";
+import { buildProvidersTree } from "../shared/utils/build-providers-tree";
 
-// const Provider = buildProivderTree([
-// 	[SessionProvider, { session }],
-// 	[LazyMotion, { features: domAnimation }],
-// 	[AnimatePresence],
-// 	[QueryClientProvider, { client: queryClient }],
-// ]);
+const queryClient = new QueryClient();
 
+const ProviderTree = buildProvidersTree([
+	[QueryClientProvider, { client: queryClient }],
+]);
+export const Provider = ({ children }: PropsWithChildren) => {
+	return <ProviderTree>{children}</ProviderTree>;
+};

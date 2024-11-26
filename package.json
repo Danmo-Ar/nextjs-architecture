@@ -2,13 +2,13 @@
 	"name": "nextjs-architecture-blank",
 	"version": "1.0.0",
 	"private": true,
-	"type": "module",
+
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"commit": "git add -A && pnpm git-cz --no-verify",
+		"commit": "git add . && pnpm git-cz ",
 		"prepare": "husky"
 	},
 	"dependencies": {
@@ -17,6 +17,7 @@
 		"@fontsource-variable/urbanist": "^5.1.0",
 		"@hookform/devtools": "^4.3.1",
 		"@hookform/resolvers": "^3.9.0",
+		"@tanstack/react-query": "^5.61.4",
 		"axios": "^1.7.7",
 		"chalk": "^5.3.0",
 		"class-variance-authority": "^0.7.0",
