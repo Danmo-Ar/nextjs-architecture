@@ -1,2 +1,2 @@
-pnpm  lint-staged
-npx --no-install commitlint --edit $1
+echo "" > .git/COMMIT_EDITMSG 
+npx --no-install commitlint --edit $1 && pnpm  lint-staged
