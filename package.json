@@ -8,7 +8,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"commit": "git add -A && pnpm git-cz ",
+		"commit": "git add . && pnpm git-cz ",
 		"prepare": "husky"
 	},
 	"dependencies": {
