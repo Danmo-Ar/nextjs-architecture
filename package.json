@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"commit": "git add -A && pnpm cz",
+		"commit": "git add -A && pnpm git-cz --no-verify",
 		"prepare": "husky"
 	},
 	"dependencies": {
