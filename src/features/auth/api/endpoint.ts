@@ -4,6 +4,6 @@
  */
 
 export const AUTH_ENDPOINT = {
-	// Example :  URL de l'api pour récupérer la liste des utilisateurs
-	LOGIN: "/auth/login",
-};
+    // Example :  URL de l'api pour récupérer la liste des utilisateurs
+    LOGIN: '/auth/login'
+} as const;
