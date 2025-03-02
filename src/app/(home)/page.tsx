@@ -1,11 +1,9 @@
-"use client";
+import Hero from '@/shared/components/organisms/sections/hero';
 
 export default function Home() {
-	return (
-		<section className="text-center">
-			<h1 className="text-4xl font-bold">
-				Blank Page : Header Coming Soon 🤞
-			</h1>
-		</section>
-	);
+    return (
+        <section className="text-center">
+            <Hero />
+        </section>
+    );
 }

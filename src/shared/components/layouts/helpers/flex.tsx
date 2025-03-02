@@ -20,91 +20,94 @@
  *
  */
 
-import { cn } from "@/src/lib/utils";
-import { As } from "@/src/types";
-import { HTMLAttributes, PropsWithChildren } from "react";
+import { cn } from '@/shared/lib/utils';
+import { As } from '@/shared/types';
+import { HTMLAttributes, PropsWithChildren } from 'react';
 
 export interface FlexRowProps extends HTMLAttributes<HTMLDivElement> {
-	as?: As;
-	settings?: {
-		shouldWrap?: boolean;
-		shouldReverse?: boolean;
-		isColumn?: boolean;
-		shouldTakeSameSpace?: boolean;
-		spacing?: string;
-		justify?:
-			| "center"
-			| "between"
-			| "around"
-			| "evenly"
-			| "start"
-			| "end"
-			| "";
-		align?: "center" | "stretch" | "baseline" | "start" | "end" | "";
-		placeItems?: "center" | "stretch" | "baseline" | "start" | "end" | "";
-	};
+    as?: As;
+    settings?: {
+        shouldWrap?: boolean;
+        shouldReverse?: boolean;
+        isColumn?: boolean;
+        shouldTakeSameSpace?: boolean;
+        spacing?: string;
+        justify?:
+            | 'center'
+            | 'between'
+            | 'around'
+            | 'evenly'
+            | 'start'
+            | 'end'
+            | '';
+        align?: 'center' | 'stretch' | 'baseline' | 'start' | 'end' | '';
+        placeItems?: 'center' | 'stretch' | 'baseline' | 'start' | 'end' | '';
+    };
 }
 
-const styleConfig: Record<"justify" | "align" | "placeItems", any> = {
-	justify: {
-		center: "justify-center",
-		between: "justify-between",
-		around: "justify-around",
-		evenly: "justify-evenly",
-		start: "justify-start",
-		end: "justify-end",
-	},
-	align: {
-		center: "items-center",
-		stretch: "items-stretch",
-		baseline: "items-baseline",
-		start: "items-start",
-		end: "items-end",
-	},
-	placeItems: {
-		center: "place-items-center",
-		stretch: "place-items-stretch",
-		baseline: "place-items-baseline",
-		start: "place-items-start",
-		end: "place-items-end",
-	},
+const styleConfig: Record<'justify' | 'align' | 'placeItems', any> = {
+    justify: {
+        center: 'justify-center',
+        between: 'justify-between',
+        around: 'justify-around',
+        evenly: 'justify-evenly',
+        start: 'justify-start',
+        end: 'justify-end'
+    },
+    align: {
+        center: 'items-center',
+        stretch: 'items-stretch',
+        baseline: 'items-baseline',
+        start: 'items-start',
+        end: 'items-end'
+    },
+    placeItems: {
+        center: 'place-items-center',
+        stretch: 'place-items-stretch',
+        baseline: 'place-items-baseline',
+        start: 'place-items-start',
+        end: 'place-items-end'
+    }
 };
 
 const Flex = ({
-	children,
-	as = "div",
-	settings,
-	className,
-	...props
+    children,
+    as = 'div',
+    settings,
+    className,
+    ...props
 }: PropsWithChildren<FlexRowProps>) => {
-	const Component = as;
-	console.log({ settings });
-	return (
-		<Component
-			className={cn(
-				"flex   ",
-				settings?.spacing || "gap-5",
-				{
-					[styleConfig.align[settings?.align!]]: settings?.align,
-					[styleConfig.justify[settings?.justify!]]:
-						settings?.justify,
-					[styleConfig.placeItems[settings?.placeItems!]]:
-						settings?.placeItems,
+    const Component = as;
+    console.log({ settings });
+    return (
+        <Component
+            className={cn(
+                'flex   ',
+                settings?.spacing || 'gap-5',
+                {
+                    [styleConfig.align[settings?.align!]]: settings?.align,
+                    [styleConfig.justify[settings?.justify!]]:
+                        settings?.justify,
+                    [styleConfig.placeItems[settings?.placeItems!]]:
+                        settings?.placeItems,
 
-					"flex-wrap": settings?.shouldWrap,
-					"flex-col": settings?.isColumn,
-					"[&>*]:basis-0 [&>*]:flex-1":
-						settings?.shouldTakeSameSpace ?? true,
-					[`${settings?.isColumn ? "flex-col-reverse" : "flex-row-reverse"}`]:
-						settings?.shouldReverse,
-				},
-				className,
-			)}
-			{...props}
-		>
-			<>{children}</>
-		</Component>
-	);
+                    'flex-wrap': settings?.shouldWrap,
+                    'flex-col': settings?.isColumn,
+                    '[&>*]:basis-0 [&>*]:flex-1':
+                        settings?.shouldTakeSameSpace ?? true,
+                    [`${
+                        settings?.isColumn
+                            ? 'flex-col-reverse'
+                            : 'flex-row-reverse'
+                    }`]: settings?.shouldReverse
+                },
+                className
+            )}
+            {...props}
+        >
+            <>{children}</>
+        </Component>
+    );
 };
 
 export default Flex;
