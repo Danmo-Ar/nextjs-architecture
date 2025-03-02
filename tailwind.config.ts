@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { colors, uniqueColor } from './src/styles/colors';
 
 const config: Config = {
     content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -6,10 +7,8 @@ const config: Config = {
         extend: {
             colors: {
                 'newsletter-color': '#FFD2C1',
-                error: 'FC4F55',
-                gray: {
-                    DEFAULT: '#f2f2f2'
-                }
+                ...colors['orange-theme'],
+                ...uniqueColor
             }
         }
     },

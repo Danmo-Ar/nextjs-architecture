@@ -60,7 +60,7 @@ const BuildAmazingThings = [
  */
 
 const parent: Variants = {
-    animate: { transition: { staggerChildren: 0.6 } }
+    animate: { transition: { staggerChildren: 0.4 } }
 };
 
 const showText = {
@@ -97,8 +97,8 @@ const Hero = () => {
         })();
     }, [buildAmazingThingsAnimation, notFromZeroAnimation]);
     return (
-        <section className="bg-tweak hero-bg h-screen   items-center ">
-            <p className="absolute left-32 top-5 tracking-wider text-white">
+        <section className="bg-tweak hero-bg h-screen items-center   ">
+            <p className="absolute  left-32 top-5 tracking-wider text-white">
                 We are everest.
             </p>
             <p className="absolute right-32 top-5 tracking-wider text-white">
