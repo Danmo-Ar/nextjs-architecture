@@ -7,6 +7,7 @@ import { cn } from '@/shared/lib/utils';
 import { motion, useAnimation, Variants } from 'motion/react';
 import Image, { StaticImageData } from 'next/image';
 import { useEffect, useState } from 'react';
+import MagenticButton from './magnetic-button.framer';
 
 const nuages: {
     positions: string;
@@ -96,53 +97,77 @@ const Hero = () => {
             setShouldAnimateClouds(true);
         })();
     }, [buildAmazingThingsAnimation, notFromZeroAnimation]);
+
     return (
         <section className="bg-tweak hero-bg h-screen items-center   ">
-            <p className="absolute  left-32 top-5 tracking-wider text-white">
-                We are everest.
-            </p>
-            <p className="absolute right-32 top-5 tracking-wider text-white">
-                &copy; Build with 💖 by core team.
-            </p>
+            <header>
+                <p className="absolute left-32 top-5 tracking-wider text-white">
+                    We are everest.
+                </p>
+
+                <p className="absolute right-32 top-5 tracking-wider text-white">
+                    &copy; Build with 💖 by core team.
+                </p>
+            </header>
+
             <div className="relative z-10 pt-12 text-center uppercase leading-[1.2]  text-white ">
-                <motion.p
+                {/* Not From Zero Text */}
+                <motion.div
                     initial="initial"
                     animate={notFromZeroAnimation}
                     variants={parent}
-                    className="overflow-hidden text-[5rem] font-extralight capitalize"
                 >
-                    {NotFromZero.map((text, index) => (
-                        <>
-                            <motion.span
-                                key={index}
-                                variants={showText}
-                                custom={{ x: text.x, y: text.y }}
-                                className="inline-block"
-                            >
-                                {text.text}
-                            </motion.span>{' '}
-                        </>
-                    ))}
-                </motion.p>
-                <motion.h1
+                    <p className="overflow-hidden text-[5rem] font-extralight capitalize">
+                        {NotFromZero.map((text, index) => (
+                            <>
+                                <motion.span
+                                    key={index}
+                                    variants={showText}
+                                    custom={{ x: text.x, y: text.y }}
+                                    className="inline-block"
+                                >
+                                    {text.text}
+                                </motion.span>{' '}
+                            </>
+                        ))}
+                    </p>
+                </motion.div>
+
+                {/* Build Amazing Things */}
+                <motion.div
                     initial="initial"
                     animate={buildAmazingThingsAnimation}
                     variants={parent}
-                    className="overflow-hidden text-[9rem] font-normal capitalize"
                 >
-                    {BuildAmazingThings.map((text, index) => (
-                        <>
-                            <motion.span
-                                key={index}
-                                variants={showText}
-                                custom={{ y: text.y }}
-                                className="inline-block"
-                            >
-                                {text.text}
-                            </motion.span>{' '}
-                        </>
-                    ))}
-                </motion.h1>
+                    <h1 className="overflow-hidden text-[9rem] font-normal capitalize">
+                        {BuildAmazingThings.map((text, index) => (
+                            <>
+                                <motion.span
+                                    key={index}
+                                    variants={showText}
+                                    custom={{ y: text.y }}
+                                    className="inline-block"
+                                >
+                                    {text.text}
+                                </motion.span>{' '}
+                            </>
+                        ))}
+                    </h1>
+                </motion.div>
+
+                {/* Vertical Line */}
+                <div className="mx-auto mt-12 h-48 w-0.5  bg-[#FCFDEC]" />
+                {/* Circle Button Line */}
+
+                <div className="mt-12 flex justify-center">
+                    <MagenticButton>
+                        <button className="flex aspect-square items-center justify-center rounded-full border-2 border-[#FCFDEC] p-16 ">
+                            <span className="text-[2rem]  tracking-wider text-[#FCFDEC]">
+                                DOCS
+                            </span>
+                        </button>
+                    </MagenticButton>
+                </div>
             </div>
             <Image
                 className="absolute -bottom-20 w-full"
@@ -150,7 +175,6 @@ const Hero = () => {
                 alt="montain"
                 width={1920}
                 height={1080}
-                objectFit="contain"
                 priority
             />
 

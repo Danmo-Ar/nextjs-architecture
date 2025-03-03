@@ -1,8 +1,59 @@
 // This file should contain alldesign systems colors and help uswith modularity ot easly change the color without breaking the app.
 //  we must use convetionnal name for the colors and use them in the design system
 
-export const colors = {
-    'orange-theme': {
+/**
+ * @description
+ * ColorShade is a type that represents the different shades of a color
+ */
+
+export type ColorShade = {
+    '50': string;
+    '100': string;
+    '200': string;
+    '300': string;
+    '400': string;
+    '500': string;
+    '600': string;
+    '700': string;
+    '800': string;
+    '900': string;
+};
+
+/**
+ * @description
+ * ColorScheme is a type that represents the different color schemes
+ * Note that the color schemes are primary, secondary, accent, info, success, warning, danger, and slate
+ * It's design to implement the design system and make it easy to change the color of the app base on the theme
+ */
+
+export type ColorScheme = {
+    primary: ColorShade;
+    secondray: ColorShade;
+    accent: ColorShade;
+    // infos: ColorShade;
+    // success: ColorShade;
+    // warning: ColorShade;
+    // danger: ColorShade;
+    // slate: ColorShade;
+};
+
+export type Scheme = keyof ColorScheme;
+
+export type ThemeColor = {
+    'main-theme': ColorScheme;
+    'blue-theme': ColorScheme;
+};
+
+export type Theme = keyof ThemeColor;
+
+/**
+ * @description
+ *! ⚠️ all the colors should have the same color scheme
+ *
+ */
+
+export const colors: ThemeColor = {
+    'main-theme': {
         primary: {
             '50': '#fff3e0',
             '100': '#ffe0b2',
@@ -80,6 +131,35 @@ export const colors = {
         }
     }
 };
+
+/**
+ *
+ * @returns colorConfig
+ * @description
+ * This function is used to generate the color config for tailwindcss
+ * under the form :  primary: {
+      '50': 'var(--primary-50)',
+      '100': 'var(--primary-100)',
+      ....  for all the color scheme
+ */
+
+export const colorsConfigFn = () => {
+    const theme = colors['main-theme'];
+    const colorConfig: any = {};
+    for (const color in theme) {
+        const colorScheme = color as Scheme;
+        Object.entries(theme[colorScheme]).forEach(([shade, value]) => {
+            colorConfig[colorScheme] = {
+                ...colorConfig[colorScheme],
+                [shade]: `var(--${colorScheme}-${shade})`
+            };
+        });
+    }
+
+    return colorConfig;
+};
+
+export const colorsConfig = colorsConfigFn();
 
 export const uniqueColor = {
     white: '#fff',
