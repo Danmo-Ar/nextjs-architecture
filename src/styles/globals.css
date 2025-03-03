@@ -18,6 +18,7 @@
         padding: 0px;
         margin: 0px;
         box-sizing: border-box;
+        transition: color, background-color 200ms ease;
     }
 
     html {

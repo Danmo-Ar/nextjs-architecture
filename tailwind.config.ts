@@ -1,18 +1,17 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss";
+import { colorsConfig, uniqueColor } from "./src/styles/colors";
 
 const config: Config = {
-    content: ['./src/**/*.{js,ts,jsx,tsx}'],
+    content: ["./src/**/*.{js,ts,jsx,tsx}"],
     theme: {
         extend: {
             colors: {
-                'newsletter-color': '#FFD2C1',
-                error: 'FC4F55',
-                gray: {
-                    DEFAULT: '#f2f2f2'
-                }
-            }
-        }
+                "newsletter-color": "#FFD2C1",
+                ...colorsConfig,
+                ...uniqueColor,
+            },
+        },
     },
-    plugins: []
+    plugins: [],
 };
 export default config;
