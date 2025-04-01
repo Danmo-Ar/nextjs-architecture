@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { formatEnvError } from "../shared/utils/format-env-error.js";
+import { formatEnvError } from "../shared/lib/helpers/format-env-error.js";
 
 const createEnv = () => {
 	const EnvSchema = z.object({
