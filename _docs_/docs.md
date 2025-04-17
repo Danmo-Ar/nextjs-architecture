@@ -55,7 +55,7 @@ Ce projet est un modèle Next.js modulaire et évolutif conçu pour simplifier l
 │   │   │   ├── atoms/         # Éléments UI de base
 │   │   │   ├── molecules/     # Éléments UI composés
 │   │   │   ├── organisms/     # Sections UI complexes
-│   │   │   └── templates/     # Layouts de page
+│   │   │   └── layouts/       # Layouts de page
 │   │   ├── hooks/             # Hooks React personnalisés
 │   │   ├── utils/             # Fonctions utilitaires
 │   │   ├── providers/         # Fournisseurs de contexte
@@ -251,18 +251,55 @@ Cette approche assure une configuration robuste, sécurisée et facile à mainte
 
 ## Bonnes Pratiques
 
-1. **Qualité du Code** :
+1.  **Qualité du Code** :
 
-    - Utilisez ESLint et Prettier.
-    - Suivez les conventions de message de commit imposées par Commitizen.
+    -   Utilisez ESLint et Prettier.
+    -   Suivez les conventions de message de commit imposées par Commitizen.
+    -   Utilisez Husky pour exécuter des vérifications avant les commits.
 
-2. **Conception des Composants** :
+    ### Quelques bonnes pratiques de développement conforme à eslint :
 
-    - Utilisez les principes du design atomique pour les composants.
+    -   Utilisez des hooks personnalisés pour la logique réutilisable.
+    -   Évitez les effets secondaires dans les composants le plus que possible.
+    -   importer les types avec `import type {}` pour éviter d'importer des modules inutiles.
+    -   Si une promesse est utilisée sans await, utilisez le mot clé `void` pour éviter les avertissements de linting ex :
 
-3. **Gestion d'État** :
-    - Utilisez React Query pour l'état des API.
-    - Utilisez Zustand pour l'état global.
+    ```ts
+    void fetchData();
+    ```
+
+2.  **Conception des Composants** :
+
+    -   Utilisez les principes du design atomique pour les composants.
+
+    ### Explications du design atomique
+
+        - **Atomes** : Composants de base (ex : boutons, champs de texte).
+        - **Molécules** : Combinaisons d'atomes (ex : formulaires).
+        - **Organismes** : Sections complexes (ex : en-têtes, pieds de page).
+        - **Layout** : Dispositions de page.
+        - **Pages** : Dans le cas ou toutes la page doit être en client , il est important de l'extrait dans fichier afin de laisser son parent page.tsx en SSR.
+
+3.  **Gestion d'État** :
+
+    -   Utilisez React Query pour l'état des API.
+    -   Utilisez Zustand pour l'état global.
+
+4.  **Avoiding Provider Hell with provider tree** :
+    -   Utilisez le fichier `src/app/provider.tsx` pour regrouper tous les providers nécessaires.
+    -   Évitez de les imbriquer dans chaque module.
+    -   Exemple :
+    ```tsx
+    import { ThemeProvider } from '@/shared/providers/themecolors.provider';
+    import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+    import type { PropsWithChildren } from 'react';
+    import { buildProvidersTree } from '../shared/utils/build-providers-tree';
+    const queryClient = new QueryClient();
+    const ProviderTree = buildProvidersTree([
+        [QueryClientProvider, { client: queryClient }],
+        [ThemeProvider, {}]
+    ]);
+    ```
 
 ---
 
