@@ -1,9 +1,9 @@
-import { $env } from '@/src/config';
+import { API_URL, IS_CLIENT } from '@/constants';
 
 type RequestOptions = {
     method?: string;
     headers?: Record<string, string>;
-    body?: any;
+    body?: unknown;
     cookie?: string;
     params?: Record<string, string | number | boolean | undefined | null>;
     // eslint-disable-next-line no-undef
@@ -30,14 +30,14 @@ function buildUrlWithParams(
 }
 
 // Create a separate function for getting server-side cookies that can be imported where needed
-export function getServerCookies() {
+export async function getServerCookies() {
     if (typeof window !== 'undefined') return '';
 
     // Dynamic import next/headers only on server-side
-    return import('next/headers').then(({ cookies }) => {
+    return import('next/headers').then(async ({ cookies }) => {
         try {
             const cookieStore = cookies();
-            return cookieStore
+            return (await cookieStore)
                 .getAll()
                 .map((c) => `${c.name}=${c.value}`)
                 .join('; ');
@@ -50,7 +50,8 @@ export function getServerCookies() {
 
 async function fetchApi<T>(
     url: string,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
+    isTiers: boolean = false // nous permet de savoir si l'url est une url tiers ou non
 ): Promise<T> {
     const {
         method = 'GET',
@@ -67,8 +68,9 @@ async function fetchApi<T>(
     if (typeof window === 'undefined' && !cookie) {
         cookieHeader = await getServerCookies();
     }
-
-    const fullUrl = buildUrlWithParams(`${$env.server.API_URL}${url}`, params);
+    const fullUrl = isTiers
+        ? url
+        : buildUrlWithParams(`${API_URL}/${url}`, params);
 
     const response = await fetch(fullUrl, {
         method,
@@ -86,7 +88,8 @@ async function fetchApi<T>(
 
     if (!response.ok) {
         const message = (await response.json()).message || response.statusText;
-        if (typeof window !== 'undefined') {
+        if (IS_CLIENT && response.status === 401) {
+            // TODO : add unautorized logic for refresh token maybe
             // TODO : add toast notification and on certain error reply
         }
         throw new Error(message);
@@ -96,19 +99,42 @@ async function fetchApi<T>(
 }
 
 export const api = {
-    get<T>(url: string, options?: RequestOptions): Promise<T> {
-        return fetchApi<T>(url, { ...options, method: 'GET' });
+    get<T>(
+        url: string,
+        options?: RequestOptions,
+        isTiers: boolean = false
+    ): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'GET' }, isTiers);
     },
-    post<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
-        return fetchApi<T>(url, { ...options, method: 'POST', body });
+    post<T>(
+        url: string,
+        body?: unknown,
+        options?: RequestOptions,
+        isTiers: boolean = false
+    ): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'POST', body }, isTiers);
     },
-    put<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
-        return fetchApi<T>(url, { ...options, method: 'PUT', body });
+    put<T>(
+        url: string,
+        body?: unknown,
+        options?: RequestOptions,
+        isTiers: boolean = false
+    ): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'PUT', body }, isTiers);
     },
-    patch<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
-        return fetchApi<T>(url, { ...options, method: 'PATCH', body });
+    patch<T>(
+        url: string,
+        body?: unknown,
+        options?: RequestOptions,
+        isTiers: boolean = false
+    ): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'PATCH', body }, isTiers);
     },
-    delete<T>(url: string, options?: RequestOptions): Promise<T> {
-        return fetchApi<T>(url, { ...options, method: 'DELETE' });
+    delete<T>(
+        url: string,
+        options?: RequestOptions,
+        isTiers: boolean = false
+    ): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'DELETE' }, isTiers);
     }
 };

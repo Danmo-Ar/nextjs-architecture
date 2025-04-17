@@ -1,5 +1,5 @@
 const ExmaplePage = () => {
-	return <div>ExmaplePage</div>;
+    return <div>ExmaplePage</div>;
 };
 
 export default ExmaplePage;

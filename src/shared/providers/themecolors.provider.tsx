@@ -1,8 +1,10 @@
 'use client';
-import { colors, Scheme } from '@/styles/colors';
-import { PropsWithChildren, useLayoutEffect, useState } from 'react';
-import { setThemeColor } from '../lib/helpers/setThemeColor';
+import type { Scheme } from '@/styles/colors';
+import { colors } from '@/styles/colors';
+import type { PropsWithChildren } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useUIStore } from '../store/useUIStore';
+import { setThemeColor } from '../utils/setThemeColor';
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
     const { theme } = useUIStore();

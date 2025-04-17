@@ -29,7 +29,7 @@
         ".next/types/**/*.ts",
         "eslint.config.js",
         "src/config/env.js",
-        "src/shared/lib/helpers/format-env-error.js"
+        "src/shared/utils/format-env-error.js"
     ],
     "exclude": ["node_modules"]
 }

@@ -21,8 +21,7 @@
  */
 
 import { cn } from '@/shared/lib/utils';
-import { As } from '@/shared/types';
-import { HTMLAttributes, PropsWithChildren } from 'react';
+import type { HTMLAttributes, PropsWithChildren } from 'react';
 
 export interface FlexRowProps extends HTMLAttributes<HTMLDivElement> {
     as?: As;
@@ -45,7 +44,10 @@ export interface FlexRowProps extends HTMLAttributes<HTMLDivElement> {
     };
 }
 
-const styleConfig: Record<'justify' | 'align' | 'placeItems', any> = {
+const styleConfig: Record<
+    'justify' | 'align' | 'placeItems',
+    { [key: string]: string }
+> = {
     justify: {
         center: 'justify-center',
         between: 'justify-between',
@@ -78,17 +80,16 @@ const Flex = ({
     ...props
 }: PropsWithChildren<FlexRowProps>) => {
     const Component = as;
-    console.log({ settings });
     return (
         <Component
             className={cn(
                 'flex   ',
-                settings?.spacing || 'gap-5',
+                settings?.spacing ?? 'gap-5',
                 {
-                    [styleConfig.align[settings?.align!]]: settings?.align,
-                    [styleConfig.justify[settings?.justify!]]:
+                    [styleConfig.align[settings?.align ?? '']]: settings?.align,
+                    [styleConfig.justify[settings?.justify ?? '']]:
                         settings?.justify,
-                    [styleConfig.placeItems[settings?.placeItems!]]:
+                    [styleConfig.placeItems[settings?.placeItems ?? '']]:
                         settings?.placeItems,
 
                     'flex-wrap': settings?.shouldWrap,
@@ -96,7 +97,7 @@ const Flex = ({
                     '[&>*]:basis-0 [&>*]:flex-1':
                         settings?.shouldTakeSameSpace ?? true,
                     [`${
-                        settings?.isColumn
+                        settings?.isColumn ?? false
                             ? 'flex-col-reverse'
                             : 'flex-row-reverse'
                     }`]: settings?.shouldReverse
