@@ -1,5 +1,4 @@
-import { $env } from '@/config';
-import { IS_CLIENT } from '@/constants';
+import { API_URL, IS_CLIENT } from '@/constants';
 
 type RequestOptions = {
     method?: string;
@@ -69,7 +68,7 @@ async function fetchApi<T>(
         cookieHeader = await getServerCookies();
     }
 
-    const fullUrl = buildUrlWithParams(`${$env.server.API_URL}/${url}`, params);
+    const fullUrl = buildUrlWithParams(`${API_URL}/${url}`, params);
 
     const response = await fetch(fullUrl, {
         method,
