@@ -50,7 +50,8 @@ export async function getServerCookies() {
 
 async function fetchApi<T>(
     url: string,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
+    isTiers: boolean = false // nous permet de savoir si l'url est une url tiers ou non
 ): Promise<T> {
     const {
         method = 'GET',
@@ -67,8 +68,9 @@ async function fetchApi<T>(
     if (typeof window === 'undefined' && !cookie) {
         cookieHeader = await getServerCookies();
     }
-
-    const fullUrl = buildUrlWithParams(`${API_URL}/${url}`, params);
+    const fullUrl = isTiers
+        ? url
+        : buildUrlWithParams(`${API_URL}/${url}`, params);
 
     const response = await fetch(fullUrl, {
         method,
@@ -97,23 +99,42 @@ async function fetchApi<T>(
 }
 
 export const api = {
-    get<T>(url: string, options?: RequestOptions): Promise<T> {
-        return fetchApi<T>(url, { ...options, method: 'GET' });
+    get<T>(
+        url: string,
+        options?: RequestOptions,
+        isTiers: boolean = false
+    ): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'GET' }, isTiers);
     },
-    post<T>(url: string, body?: unknown, options?: RequestOptions): Promise<T> {
-        return fetchApi<T>(url, { ...options, method: 'POST', body });
+    post<T>(
+        url: string,
+        body?: unknown,
+        options?: RequestOptions,
+        isTiers: boolean = false
+    ): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'POST', body }, isTiers);
     },
-    put<T>(url: string, body?: unknown, options?: RequestOptions): Promise<T> {
-        return fetchApi<T>(url, { ...options, method: 'PUT', body });
+    put<T>(
+        url: string,
+        body?: unknown,
+        options?: RequestOptions,
+        isTiers: boolean = false
+    ): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'PUT', body }, isTiers);
     },
     patch<T>(
         url: string,
         body?: unknown,
-        options?: RequestOptions
+        options?: RequestOptions,
+        isTiers: boolean = false
     ): Promise<T> {
-        return fetchApi<T>(url, { ...options, method: 'PATCH', body });
+        return fetchApi<T>(url, { ...options, method: 'PATCH', body }, isTiers);
     },
-    delete<T>(url: string, options?: RequestOptions): Promise<T> {
-        return fetchApi<T>(url, { ...options, method: 'DELETE' });
+    delete<T>(
+        url: string,
+        options?: RequestOptions,
+        isTiers: boolean = false
+    ): Promise<T> {
+        return fetchApi<T>(url, { ...options, method: 'DELETE' }, isTiers);
     }
 };
