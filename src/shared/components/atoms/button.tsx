@@ -1,7 +1,8 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 import { cn } from '@/shared/lib/utils';
-import { VariantProps, cva } from 'class-variance-authority';
-import { ButtonHTMLAttributes } from 'react';
+import type { VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
+import type { ButtonHTMLAttributes } from 'react';
 
 // Create a variant for the button component
 const buttonVariant = cva(

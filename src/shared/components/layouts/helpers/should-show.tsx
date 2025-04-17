@@ -7,15 +7,19 @@
  * Il permet de réduire la duplication de code dans les composants. en ce passant de la syntaxe {condition && <Component />}
  */
 
-import { PropsWithChildren, ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 const ShouldShow = ({
-	when,
-	elseShow,
-	children,
-}: PropsWithChildren<{ when: boolean; elseShow?: ReactNode }>) => {
-	if (when) return <>{children}</>;
-	return <>{elseShow || null}</>;
+    when,
+    elseShow,
+    show
+}: {
+    when: boolean;
+    elseShow?: ReactNode;
+    show?: ReactNode;
+}) => {
+    if (when) return <>{show}</>;
+    return <>{elseShow}</>;
 };
 
 export default ShouldShow;

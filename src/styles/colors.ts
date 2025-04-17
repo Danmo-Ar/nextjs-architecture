@@ -145,10 +145,10 @@ export const colors: ThemeColor = {
 
 export const colorsConfigFn = () => {
     const theme = colors['main-theme'];
-    const colorConfig: any = {};
+    const colorConfig: Record<string, Record<string, string>> = {};
     for (const color in theme) {
         const colorScheme = color as Scheme;
-        Object.entries(theme[colorScheme]).forEach(([shade, value]) => {
+        Object.entries(theme[colorScheme]).forEach(([shade]) => {
             colorConfig[colorScheme] = {
                 ...colorConfig[colorScheme],
                 [shade]: `var(--${colorScheme}-${shade})`

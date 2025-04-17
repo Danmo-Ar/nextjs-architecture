@@ -6,8 +6,8 @@
 
 import { ThemeProvider } from '@/shared/providers/themecolors.provider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { PropsWithChildren } from 'react';
-import { buildProvidersTree } from '../shared/lib/helpers/build-providers-tree';
+import type { PropsWithChildren } from 'react';
+import { buildProvidersTree } from '../shared/utils/build-providers-tree';
 
 const queryClient = new QueryClient();
 

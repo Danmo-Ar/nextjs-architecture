@@ -2,7 +2,7 @@
 import '@fontsource-variable/urbanist';
 import '@fontsource/dm-serif-display';
 import type { Metadata } from 'next';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { siteConfig } from '@/config';
 import '../styles/globals.css';

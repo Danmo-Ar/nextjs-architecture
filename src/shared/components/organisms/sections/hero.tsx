@@ -4,8 +4,10 @@ import nuage2 from '@/shared/assets/nuage2.png';
 import nuage3 from '@/shared/assets/nuage3.png';
 import nuage4 from '@/shared/assets/nuage4.png';
 import { cn } from '@/shared/lib/utils';
-import { motion, useAnimation, Variants } from 'motion/react';
-import Image, { StaticImageData } from 'next/image';
+import type { Variants } from 'motion/react';
+import { motion, useAnimation } from 'motion/react';
+import type { StaticImageData } from 'next/image';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import MagenticButton from './magnetic-button.framer';
 
@@ -90,8 +92,9 @@ const Hero = () => {
     const notFromZeroAnimation = useAnimation();
 
     const [shouldAnimateClouds, setShouldAnimateClouds] = useState(false);
+
     useEffect(() => {
-        (async () => {
+        void (async () => {
             await buildAmazingThingsAnimation.start('animate');
             await notFromZeroAnimation.start('animate');
             setShouldAnimateClouds(true);
@@ -161,8 +164,8 @@ const Hero = () => {
 
                 <div className="mt-12 flex justify-center">
                     <MagenticButton>
-                        <button className="flex aspect-square items-center justify-center rounded-full border-2 border-[#FCFDEC] p-16 ">
-                            <span className="text-[2rem]  tracking-wider text-[#FCFDEC]">
+                        <button className="flex aspect-square items-center justify-center rounded-full border border-[#FCFDEC] p-14 ">
+                            <span className="text-[1.6rem]  tracking-wider text-[#FCFDEC]">
                                 DOCS
                             </span>
                         </button>

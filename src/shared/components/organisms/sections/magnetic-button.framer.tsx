@@ -1,17 +1,20 @@
-import { PropsWithChildren, useRef, useState } from 'react';
+import type { PropsWithChildren } from 'react';
+import { useRef, useState } from 'react';
 
 import { motion } from 'motion/react';
 
 export default function MagenticButton({ children }: PropsWithChildren) {
-    const ref = useRef<any>(null);
+    const ref = useRef<HTMLDivElement>(null);
 
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
-    const handleMouse = (e: any) => {
+    const handleMouse = (e: never) => {
         const { clientX, clientY } = e;
 
-        const { height, width, left, top } =
-            ref.current.getBoundingClientRect();
+        const rect = ref.current?.getBoundingClientRect();
+        if (!rect) return;
+
+        const { height, width, left, top } = rect;
 
         const middleX = clientX - (left + width / 2);
 

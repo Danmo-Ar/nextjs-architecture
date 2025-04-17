@@ -1,9 +1,10 @@
-import { $env } from '@/src/config';
+import { $env } from '@/config';
+import { IS_CLIENT } from '@/constants';
 
 type RequestOptions = {
     method?: string;
     headers?: Record<string, string>;
-    body?: any;
+    body?: unknown;
     cookie?: string;
     params?: Record<string, string | number | boolean | undefined | null>;
     // eslint-disable-next-line no-undef
@@ -30,14 +31,14 @@ function buildUrlWithParams(
 }
 
 // Create a separate function for getting server-side cookies that can be imported where needed
-export function getServerCookies() {
+export async function getServerCookies() {
     if (typeof window !== 'undefined') return '';
 
     // Dynamic import next/headers only on server-side
-    return import('next/headers').then(({ cookies }) => {
+    return import('next/headers').then(async ({ cookies }) => {
         try {
             const cookieStore = cookies();
-            return cookieStore
+            return (await cookieStore)
                 .getAll()
                 .map((c) => `${c.name}=${c.value}`)
                 .join('; ');
@@ -68,7 +69,7 @@ async function fetchApi<T>(
         cookieHeader = await getServerCookies();
     }
 
-    const fullUrl = buildUrlWithParams(`${$env.server.API_URL}${url}`, params);
+    const fullUrl = buildUrlWithParams(`${$env.server.API_URL}/${url}`, params);
 
     const response = await fetch(fullUrl, {
         method,
@@ -86,7 +87,8 @@ async function fetchApi<T>(
 
     if (!response.ok) {
         const message = (await response.json()).message || response.statusText;
-        if (typeof window !== 'undefined') {
+        if (IS_CLIENT && response.status === 401) {
+            // TODO : add unautorized logic for refresh token maybe
             // TODO : add toast notification and on certain error reply
         }
         throw new Error(message);
@@ -99,13 +101,17 @@ export const api = {
     get<T>(url: string, options?: RequestOptions): Promise<T> {
         return fetchApi<T>(url, { ...options, method: 'GET' });
     },
-    post<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
+    post<T>(url: string, body?: unknown, options?: RequestOptions): Promise<T> {
         return fetchApi<T>(url, { ...options, method: 'POST', body });
     },
-    put<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
+    put<T>(url: string, body?: unknown, options?: RequestOptions): Promise<T> {
         return fetchApi<T>(url, { ...options, method: 'PUT', body });
     },
-    patch<T>(url: string, body?: any, options?: RequestOptions): Promise<T> {
+    patch<T>(
+        url: string,
+        body?: unknown,
+        options?: RequestOptions
+    ): Promise<T> {
         return fetchApi<T>(url, { ...options, method: 'PATCH', body });
     },
     delete<T>(url: string, options?: RequestOptions): Promise<T> {

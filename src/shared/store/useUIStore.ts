@@ -1,4 +1,4 @@
-import { Theme } from '@/styles/colors';
+import type { Theme } from '@/styles/colors';
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 
@@ -9,6 +9,7 @@ interface UISlice {
     setTheme: (theme: Theme) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createUISlice = (set: any): UISlice => ({
     theme: 'main-theme',
     setTheme: (theme: Theme) => set({ theme }),
@@ -19,9 +20,7 @@ const createUISlice = (set: any): UISlice => ({
         }))
 });
 
-interface UIStoreState extends UISlice {}
-
-export const useUIStore = create<UIStoreState>()(
+export const useUIStore = create<UISlice>()(
     devtools(
         persist(
             (set) => ({

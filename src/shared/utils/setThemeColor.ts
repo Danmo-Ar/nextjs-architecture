@@ -1,4 +1,4 @@
-import { ColorShade, Scheme } from '@/styles/colors';
+import type { ColorShade, Scheme } from '@/styles/colors';
 
 export const setThemeColor = (theme: ColorShade, color: Scheme) => {
     const root = document.documentElement;
