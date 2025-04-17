@@ -6,12 +6,12 @@ import type { ButtonHTMLAttributes } from 'react';
 
 // Create a variant for the button component
 const buttonVariant = cva(
-    ' flex-center soft-shadow h-[6.3rem] gap-2  px-[3.95rem] text-[1.8rem]  font-semibold  disabled:cursor-not-allowed disabled:opacity-65',
+    'flex-center soft-shadow h-[6.3rem] gap-2  px-[3.95rem] text-[1.8rem]  font-semibold  disabled:cursor-not-allowed disabled:opacity-65',
     {
         variants: {
             variant: {
                 primary:
-                    'btn-animate btn-animate--primary  bg-black text-white ',
+                    'btn-animate btn-animate--primary  bg-black text-white',
                 outline: ' border-primary text-primary  bg-transparent',
                 secondary:
                     '  btn-animate btn-animate--secondary bg-white text-black '
