@@ -1,0 +1,1 @@
+# Configuration de Better Auth
