@@ -39,21 +39,23 @@ export const formatEnvError = (error: any) => {
 /**
  * Create Environment function
  */
-const $env = {
+export const $env = {
     server: {
         NODE_ENV: process.env.NODE_ENV,
         API_URL: process.env.API_URL,
-        APP_URL: process.env.APP_URL
+        BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+        BETTER_AUTH_URL: process.env.BETTER_AUTH_URL
     },
     client: {}
 };
 
-const createEnv = () => {
+export const createEnv = () => {
     const EnvSchema = z.object({
         server: z.object({
             NODE_ENV: z.enum(['development', 'test', 'production']),
             API_URL: z.string().url(),
-            APP_URL: z.string().optional().default('http://localhost:3000')
+            BETTER_AUTH_SECRET: z.string().min(16),
+            BETTER_AUTH_URL: z.string().url()
         }),
         client: z.object({})
     });
@@ -68,8 +70,4 @@ const createEnv = () => {
         console.error(err.message);
         process.exit(1);
     }
-
-    return { EnvSchema, envJS: parsedEnv.data };
 };
-
-export const { EnvSchema, envJS } = createEnv();

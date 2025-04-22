@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
-import './src/config/env';
+import { createEnv } from './src/config/env';
+createEnv();
 const nextConfig = {
     reactStrictMode: true,
     output: 'standalone'
