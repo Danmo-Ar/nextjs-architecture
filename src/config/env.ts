@@ -41,23 +41,21 @@ export const formatEnvError = (error: any) => {
  */
 export const $env = {
     server: {
-        NODE_ENV: process.env.NODE_ENV,
-        API_URL: process.env.API_URL,
-        BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
-        BETTER_AUTH_URL: process.env.BETTER_AUTH_URL
+        NODE_ENV: process.env.NODE_ENV
     },
-    client: {}
+    client: {
+        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL
+    }
 };
 
 export const createEnv = () => {
     const EnvSchema = z.object({
         server: z.object({
-            NODE_ENV: z.enum(['development', 'test', 'production']),
-            API_URL: z.string().url(),
-            BETTER_AUTH_SECRET: z.string().min(16),
-            BETTER_AUTH_URL: z.string().url()
+            NODE_ENV: z.enum(['development', 'test', 'production'])
         }),
-        client: z.object({})
+        client: z.object({
+            NEXT_PUBLIC_API_URL: z.string().url()
+        })
     });
 
     const parsedEnv = EnvSchema.safeParse($env);

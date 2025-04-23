@@ -4,5 +4,5 @@
 
 import { $env } from '@/config/env';
 
-export const API_URL = $env.server.API_URL;
+export const API_URL = $env.client.NEXT_PUBLIC_API_URL;
 export const IS_CLIENT = typeof window !== 'undefined';
