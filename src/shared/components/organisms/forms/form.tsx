@@ -18,7 +18,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 interface FormProps<TFormValues extends FieldValues> {
     useFormProps: UseFormProps<TFormValues>;
     onSubmit: SubmitHandler<TFormValues>;
-    validationSchema: Schema<TFormValues>;
+    validationSchema: Schema;
     children: (
         methods: UseFormReturn<TFormValues>,
         fieldArray: UseFieldArrayReturn<
