@@ -3,6 +3,7 @@
 import { FormInput } from '@/shared/components/atoms/form-input';
 import { Button } from '@/shared/components/button/button';
 import Form from '@/shared/components/organisms/forms/form';
+import { api } from '@/shared/lib/api-client';
 import { $toastify } from '@/shared/utils/toastify';
 import { useState } from 'react';
 import { loginSchema, type LoginFormValues } from '../schemas/auth-schemas';
@@ -17,6 +18,8 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
     const handleSubmit = async (data: LoginFormValues) => {
         try {
             setIsLoading(true);
+
+            api.selfPost('api/auth/sign-in', data);
 
             $toastify('success', 'Login successful');
         } catch (error) {

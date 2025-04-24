@@ -53,7 +53,6 @@ export function ForgotPasswordEmail({
             }}
             onSubmit={handleSubmit}
             validationSchema={forgotPasswordEmailSchema}
-            fieldArrayOption={{ name: 'dummy' }}
         >
             {(methods, _) => {
                 const {

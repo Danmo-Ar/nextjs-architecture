@@ -3,6 +3,7 @@
  */
 
 import { $env } from '@/config/env';
+import { rmSlashEndUrl } from '@/shared/lib/rm-slash-api-url';
 
-export const API_URL = $env.client.NEXT_PUBLIC_API_URL;
+export const API_URL = rmSlashEndUrl($env.client.NEXT_PUBLIC_API_URL);
 export const IS_CLIENT = typeof window !== 'undefined';

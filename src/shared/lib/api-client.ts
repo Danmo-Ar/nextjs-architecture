@@ -1,4 +1,5 @@
 import { API_URL, IS_CLIENT } from '@/constants';
+import { rmSlashStartUrl } from './rm-slash-api-url';
 
 type RequestOptions = {
     method?: string;
@@ -48,11 +49,16 @@ export async function getServerCookies() {
     });
 }
 
-async function fetchApi<T>(
+type FetchResponse<T> = Promise<{
+    data: T;
+    error: any;
+}>;
+
+async function fetchApi<T = any>(
     url: string,
     options: RequestOptions = {},
     isTiers: boolean = false // nous permet de savoir si l'url est une url tiers ou non
-): Promise<T> {
+): FetchResponse<T> {
     const {
         method = 'GET',
         headers = {},
@@ -68,9 +74,10 @@ async function fetchApi<T>(
     if (typeof window === 'undefined' && !cookie) {
         cookieHeader = await getServerCookies();
     }
+
     const fullUrl = isTiers
         ? url
-        : buildUrlWithParams(`${API_URL}/${url}`, params);
+        : buildUrlWithParams(`${API_URL}/${rmSlashStartUrl(url)}`, params);
 
     const response = await fetch(fullUrl, {
         method,
@@ -85,9 +92,16 @@ async function fetchApi<T>(
         cache,
         next
     });
+    const res = await response.json();
 
     if (!response.ok) {
-        const message = (await response.json()).message || response.statusText;
+        if (typeof window === 'undefined') {
+            return {
+                data: res,
+                error: res?.data
+            };
+        }
+        const message = res.message || res.data.message || response.statusText;
         if (IS_CLIENT && response.status === 401) {
             // TODO : add unautorized logic for refresh token maybe
             // TODO : add toast notification and on certain error reply
@@ -95,31 +109,38 @@ async function fetchApi<T>(
         throw new Error(message);
     }
 
-    return response.json();
+    return { data: res, error: null };
 }
 
 export const api = {
-    get<T>(
+    get<T = any>(
         url: string,
         options?: RequestOptions,
         isTiers: boolean = false
-    ): Promise<T> {
+    ): FetchResponse<T> {
         return fetchApi<T>(url, { ...options, method: 'GET' }, isTiers);
     },
-    post<T>(
+    post<T = any>(
         url: string,
         body?: unknown,
         options?: RequestOptions,
         isTiers: boolean = false
-    ): Promise<T> {
+    ): FetchResponse<T> {
         return fetchApi<T>(url, { ...options, method: 'POST', body }, isTiers);
+    },
+    selfPost<T>(
+        url: string,
+        body?: unknown,
+        options?: RequestOptions
+    ): FetchResponse<T> {
+        return fetchApi<T>(url, { ...options, method: 'POST', body }, true);
     },
     put<T>(
         url: string,
         body?: unknown,
         options?: RequestOptions,
         isTiers: boolean = false
-    ): Promise<T> {
+    ): FetchResponse<T> {
         return fetchApi<T>(url, { ...options, method: 'PUT', body }, isTiers);
     },
     patch<T>(
@@ -127,14 +148,14 @@ export const api = {
         body?: unknown,
         options?: RequestOptions,
         isTiers: boolean = false
-    ): Promise<T> {
+    ): FetchResponse<T> {
         return fetchApi<T>(url, { ...options, method: 'PATCH', body }, isTiers);
     },
     delete<T>(
         url: string,
         options?: RequestOptions,
         isTiers: boolean = false
-    ): Promise<T> {
+    ): FetchResponse<T> {
         return fetchApi<T>(url, { ...options, method: 'DELETE' }, isTiers);
     }
 };

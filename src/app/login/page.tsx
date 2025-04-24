@@ -1,7 +1,7 @@
 import { AuthPage } from '@/features/auth/views/auth-page';
 
 export const metadata = {
-    title: 'Login | Better Auth Demo',
+    title: 'Login |  Auth Demo',
     description: 'Sign in to your account'
 };
 

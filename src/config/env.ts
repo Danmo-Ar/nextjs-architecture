@@ -41,7 +41,8 @@ export const formatEnvError = (error: any) => {
  */
 export const $env = {
     server: {
-        NODE_ENV: process.env.NODE_ENV
+        NODE_ENV: process.env.NODE_ENV,
+        SESSION_SECRET: process.env.SESSION_SECRET
     },
     client: {
         NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL
@@ -51,7 +52,8 @@ export const $env = {
 export const createEnv = () => {
     const EnvSchema = z.object({
         server: z.object({
-            NODE_ENV: z.enum(['development', 'test', 'production'])
+            NODE_ENV: z.enum(['development', 'test', 'production']),
+            SESSION_SECRET: z.string().min(1)
         }),
         client: z.object({
             NEXT_PUBLIC_API_URL: z.string().url()
