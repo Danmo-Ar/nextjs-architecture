@@ -68,6 +68,7 @@ export const createEnv = () => {
         }
     } catch (err: any) {
         console.error(err.message);
-        process.exit(1);
+        return;
+        // process.exit(1);
     }
 };

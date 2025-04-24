@@ -1,12 +1,16 @@
 import { $env } from '@/config/env';
 import { api } from '@/shared/lib/api-client';
-import { createSession, getServerSession } from '@/shared/lib/auth/session';
-import { decodeToken } from '@/shared/lib/auth/token';
+import { createSession, deleteSession } from '@/shared/lib/auth/session';
+import {
+    decodeToken,
+    getServerTokenPayload,
+    setServerTokenPayload
+} from '@/shared/lib/auth/token';
 import { ResponseSend } from '@/shared/utils/response-wrapper';
 
 export const POST = async (
     request: Request,
-    { params }: { params: Promise<{ authRoute: AuthRoutes }> }
+    { params }: { params: Promise<{ authRoute: AuthRoutes[] }> }
 ) => {
     const { authRoute } = await params;
 
@@ -21,18 +25,58 @@ export const POST = async (
             return ResponseSend({ data: { error: res.error }, status: 401 });
         }
 
-        const { accessToken: token, refreshToken } = res?.data?.data;
+        const { accessToken, refreshToken } = res?.data?.data;
 
-        const userInfo = decodeToken<User>(token);
+        const userInfo = decodeToken<User>(accessToken);
 
         if (userInfo) {
-            createSession({ ...userInfo, token, refreshToken });
+            const user = await createSession({ ...userInfo });
+            const tokenPayload = await setServerTokenPayload({
+                accessToken,
+                refreshToken
+            });
+            if (user && tokenPayload) {
+                return ResponseSend({
+                    data: { redirect: '/dashboard' }
+                });
+            }
         }
-        const session = await getServerSession();
-        console.log('🚀 ~ session:', session);
-
-        return ResponseSend({ data: { error: null } });
     }
+
     const data = { authRoute, env: $env.client.NEXT_PUBLIC_API_URL };
     return ResponseSend({ data });
+};
+
+export const GET = async (
+    request: Request,
+    { params }: { params: Promise<{ authRoute: AuthRoutes[] }> }
+) => {
+    const { authRoute } = await params;
+
+    if (authRoute[0] === 'sign-out') {
+        await deleteSession();
+        return ResponseSend({ data: { redirect: '/login' } });
+    }
+
+    if (authRoute[0] === 'refresh-token') {
+        const tokenPayload = await getServerTokenPayload();
+        console.log('🚀 ~ tokenPayload:', tokenPayload);
+
+        const res = await api.post<LoginResponse>(
+            '/authentication/refresh-token',
+            {
+                refreshToken: tokenPayload?.refreshToken
+            }
+        );
+
+        if (res?.error) {
+            return ResponseSend({ data: { error: res.error }, status: 401 });
+        }
+        const { accessToken, refreshToken } = res?.data?.data;
+        await setServerTokenPayload({ accessToken, refreshToken });
+
+        return ResponseSend({ data: res.data });
+
+        // const { accessToken, refreshToken } = res?.data?.data;
+    }
 };

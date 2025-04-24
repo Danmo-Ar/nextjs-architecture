@@ -8,7 +8,18 @@ Ainsi, je viens au point où je vais coder de façon simple des fonctions d'auth
 
 ## Plan d'action
 
--   [ ] Créer un fichier `auth.ts` dans le dossier `lib` pour y mettre toutes les fonctions d'authentification.
--   [ ] Créer un fichier `auth-client.ts` dans le dossier `lib` pour y mettre toutes les fonctions d'authentification côté client (Ces fonctions seront responsable de la communication avec les routes handler).
--   [ ] Créer un fichier `route.ts` dans le dossier `app/api` pour y mettre toutes les routes d'authentification.
-    -   [ ] Utiliser catch-all pour gérer toutes les routes d'authentification.
+-   [x] Créer un fichier `auth.ts` dans le dossier `lib` pour y mettre toutes les fonctions d'authentification.
+-   [x] Créer un fichier `auth-client.ts` dans le dossier `lib` pour y mettre toutes les fonctions d'authentification côté client (Ces fonctions seront responsable de la communication avec les routes handler).
+-   [x] Créer un fichier `route.ts` dans le dossier `app/api` pour y mettre toutes les routes d'authentification.
+
+    -   [x] Utiliser catch-all pour gérer toutes les routes d'authentification.
+
+-   [ ] Pass Bearer token in fetch
+-   [ ] Create getSession to get session from the client
+-   [ ] Create getToken to get token from the client
+        [ ] Réfactoriser le code sign-in
+
+-   [ ] Créer un class MinimalAuth pour instancier les fonctions d'authentification avec :
+    -   [ ] la route de redirection on success
+    -   [ ] la route de redirection on sign-out
+-   [ ] Définir toutes les routes d'authentification dans le fichier `auth.ts` et les utiliser dans le fichier `route.ts` pour éviter de dupliquer le code.

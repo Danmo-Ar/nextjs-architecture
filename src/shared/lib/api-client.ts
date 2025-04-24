@@ -120,6 +120,13 @@ export const api = {
     ): FetchResponse<T> {
         return fetchApi<T>(url, { ...options, method: 'GET' }, isTiers);
     },
+    selfGet<T = any>(
+        url: string,
+        options?: RequestOptions,
+        isTiers: boolean = false
+    ): FetchResponse<T> {
+        return fetchApi<T>(url, { ...options, method: 'GET' }, true);
+    },
     post<T = any>(
         url: string,
         body?: unknown,
@@ -128,7 +135,7 @@ export const api = {
     ): FetchResponse<T> {
         return fetchApi<T>(url, { ...options, method: 'POST', body }, isTiers);
     },
-    selfPost<T>(
+    selfPost<T = any>(
         url: string,
         body?: unknown,
         options?: RequestOptions

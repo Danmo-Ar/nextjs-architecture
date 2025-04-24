@@ -5,6 +5,7 @@ import { Button } from '@/shared/components/button/button';
 import Form from '@/shared/components/organisms/forms/form';
 import { api } from '@/shared/lib/api-client';
 import { $toastify } from '@/shared/utils/toastify';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { loginSchema, type LoginFormValues } from '../schemas/auth-schemas';
 
@@ -14,12 +15,14 @@ interface LoginFormProps {
 
 export function LoginForm({ onForgotPassword }: LoginFormProps) {
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const handleSubmit = async (data: LoginFormValues) => {
         try {
             setIsLoading(true);
 
-            api.selfPost('api/auth/sign-in', data);
+            const response = await api.selfPost('api/auth/sign-in', data);
+            router.push(response?.data?.redirect);
 
             $toastify('success', 'Login successful');
         } catch (error) {
