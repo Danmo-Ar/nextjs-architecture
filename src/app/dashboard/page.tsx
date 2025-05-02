@@ -1,14 +1,16 @@
 'use client';
 
 import { api } from '@/shared/lib/api-client';
+import { authClient } from '@/shared/lib/auth/auth-client';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
+    const router = useRouter();
     return (
         <div className="h-screen bg-primary-200">
             <button
                 onClick={async () => {
-                    const res = await api.selfGet('api/auth/sign-out');
-                    window.location.href = res?.data?.redirect;
+                    authClient.logout(router);
                 }}
             >
                 Sign out
