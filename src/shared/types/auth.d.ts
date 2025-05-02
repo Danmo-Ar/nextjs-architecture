@@ -1,11 +1,9 @@
 type AuthRoutes =
     | 'sign-in'
     | 'sign-out'
-    | 'verify-email'
-    | 'reset-password'
-    | 'refresh-token'
-    | 'change-password'
-    | 'update-profile';
+    // | 'verify-email'
+    // | 'reset-password'
+    | 'refresh-token';
 
 type LoginResponse = {
     data: {

@@ -92,6 +92,7 @@ async function fetchApi<T = any>(
         cache,
         next
     });
+
     const res = await response.json();
 
     if (!response.ok) {

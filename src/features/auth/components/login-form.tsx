@@ -3,8 +3,7 @@
 import { FormInput } from '@/shared/components/atoms/form-input';
 import { Button } from '@/shared/components/button/button';
 import Form from '@/shared/components/organisms/forms/form';
-import { api } from '@/shared/lib/api-client';
-import { $toastify } from '@/shared/utils/toastify';
+import { authClient } from '@/shared/lib/auth/auth-client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { loginSchema, type LoginFormValues } from '../schemas/auth-schemas';
@@ -21,15 +20,13 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
         try {
             setIsLoading(true);
 
-            const response = await api.selfPost('api/auth/sign-in', data);
-            router.push(response?.data?.redirect);
+            // Use the authClient with Next.js router for login and navigation
+            await authClient.login(data, router);
 
-            $toastify('success', 'Login successful');
+            // Success is handled inside authClient
         } catch (error) {
-            $toastify(
-                'error',
-                error instanceof Error ? error.message : 'Login failed'
-            );
+            // Error handling is also inside authClient, but we can add additional handling here
+            console.error('Login process failed:', error);
         } finally {
             setIsLoading(false);
         }

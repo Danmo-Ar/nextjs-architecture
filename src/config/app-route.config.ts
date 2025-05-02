@@ -4,8 +4,8 @@
  */
 
 export const APP_ROUTES = {
-	products: {
-		index: "/products",
-		single: (slug: string) => `/products/${slug}`,
-	},
+    login: '/login',
+    dashboard: {
+        root: '/dashboard'
+    }
 };
